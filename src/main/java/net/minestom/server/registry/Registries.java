@@ -48,6 +48,8 @@ public interface Registries {
 
     @NotNull DynamicRegistry<BinaryTagSerializer<? extends LevelBasedValue>> enchantmentLevelBasedValues();
 
+    @NotNull DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> enchantmentFloatProviders();
+
     @NotNull DynamicRegistry<BinaryTagSerializer<? extends ValueEffect>> enchantmentValueEffects();
 
     @NotNull DynamicRegistry<BinaryTagSerializer<? extends EntityEffect>> enchantmentEntityEffects();

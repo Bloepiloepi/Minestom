@@ -59,6 +59,7 @@ final class ServerProcessImpl implements ServerProcess {
     private final ExceptionManager exception;
 
     private final DynamicRegistry<BinaryTagSerializer<? extends LevelBasedValue>> enchantmentLevelBasedValues;
+    private final DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> enchantmentFloatProviders;
     private final DynamicRegistry<BinaryTagSerializer<? extends ValueEffect>> enchantmentValueEffects;
     private final DynamicRegistry<BinaryTagSerializer<? extends EntityEffect>> enchantmentEntityEffects;
     private final DynamicRegistry<BinaryTagSerializer<? extends LocationEffect>> enchantmentLocationEffects;
@@ -104,6 +105,7 @@ final class ServerProcessImpl implements ServerProcess {
         // The order of initialization here is relevant, we must load the enchantment util registries before the vanilla data is loaded.
 
         this.enchantmentLevelBasedValues = LevelBasedValue.createDefaultRegistry();
+        this.enchantmentFloatProviders = FloatProvider.createDefaultRegistry();
         this.enchantmentValueEffects = ValueEffect.createDefaultRegistry();
         this.enchantmentEntityEffects = EntityEffect.createDefaultRegistry();
         this.enchantmentLocationEffects = LocationEffect.createDefaultRegistry();
@@ -189,6 +191,11 @@ final class ServerProcessImpl implements ServerProcess {
     @Override
     public @NotNull DynamicRegistry<BinaryTagSerializer<? extends LevelBasedValue>> enchantmentLevelBasedValues() {
         return enchantmentLevelBasedValues;
+    }
+
+    @Override
+    public @NotNull DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> enchantmentFloatProviders() {
+        return enchantmentFloatProviders;
     }
 
     @Override
