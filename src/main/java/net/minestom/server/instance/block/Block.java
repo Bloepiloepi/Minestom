@@ -36,7 +36,7 @@ public sealed interface Block extends StaticProtocolObject, TagReadable, Blocks 
         public @NotNull BinaryTag write(@NotNull Context context, @NotNull Block value) {
             final CompoundBinaryTag properties = writeProperties(value);
             if (properties.size() == 0)
-                return BinaryTagSerializer.STRING.write(context, value.namespace().asString());
+                return StringBinaryTag.stringBinaryTag(value.namespace().asString());
 
             CompoundBinaryTag.Builder builder = CompoundBinaryTag.builder();
             builder.putString("Name", value.namespace().asString());
