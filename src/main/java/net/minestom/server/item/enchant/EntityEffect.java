@@ -161,19 +161,19 @@ public non-sealed interface EntityEffect extends Enchantment.Effect {
 
                 boolean attributeToUser = compound.getBoolean("attribute_to_user");
                 BinaryTag damageTypeTag = compound.get("damage_type");
-                DynamicRegistry.Key<DamageType> damageType = damageTypeTag == null ? null : DamageType.NBT_TYPE.read(damageTypeTag);
+                DynamicRegistry.Key<DamageType> damageType = damageTypeTag == null ? null : DamageType.NBT_TYPE.read(context, damageTypeTag);
                 BinaryTag immuneBlocksTag = compound.get("immune_blocks");
-                ObjectSet<Block> immuneBlocks = immuneBlocksTag == null ? null : IMMUNE_BLOCKS_NBT_TYPE.read(immuneBlocksTag);
+                ObjectSet<Block> immuneBlocks = immuneBlocksTag == null ? null : IMMUNE_BLOCKS_NBT_TYPE.read(context, immuneBlocksTag);
                 BinaryTag knockbackMultiplierTag = compound.get("knockback_multiplier");
-                LevelBasedValue knockbackMultiplier = knockbackMultiplierTag == null ? null : LevelBasedValue.NBT_TYPE.read(knockbackMultiplierTag);
+                LevelBasedValue knockbackMultiplier = knockbackMultiplierTag == null ? null : LevelBasedValue.NBT_TYPE.read(context, knockbackMultiplierTag);
                 BinaryTag offsetTag = compound.get("offset");
-                Point offset = offsetTag == null ? null : BinaryTagSerializer.BLOCK_POSITION.read(offsetTag);
-                LevelBasedValue radius = LevelBasedValue.NBT_TYPE.read(Objects.requireNonNull(compound.get("radius")));
+                Point offset = offsetTag == null ? null : BinaryTagSerializer.BLOCK_POSITION.read(context, offsetTag);
+                LevelBasedValue radius = LevelBasedValue.NBT_TYPE.read(context, Objects.requireNonNull(compound.get("radius")));
                 boolean createFire = compound.getBoolean("create_fire");
                 BlockInteraction blockInteraction = BlockInteraction.fromId(compound.getString("block_interaction"));
-                Particle smallParticle = Particle.NBT_TYPE.read(Objects.requireNonNull(compound.get("small_particle")));
-                Particle largeParticle = Particle.NBT_TYPE.read(Objects.requireNonNull(compound.get("large_particle")));
-                SoundEvent sound = SoundEvent.NBT_TYPE.read(Objects.requireNonNull(compound.get("sound")));
+                Particle smallParticle = Particle.NBT_TYPE.read(context, Objects.requireNonNull(compound.get("small_particle")));
+                Particle largeParticle = Particle.NBT_TYPE.read(context, Objects.requireNonNull(compound.get("large_particle")));
+                SoundEvent sound = SoundEvent.NBT_TYPE.read(context, Objects.requireNonNull(compound.get("sound")));
                 Check.notNull(sound, "Cannot find sound event");
 
                 return new Explode(
