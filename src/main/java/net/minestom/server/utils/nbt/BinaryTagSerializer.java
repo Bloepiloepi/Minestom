@@ -1,5 +1,6 @@
 package net.minestom.server.utils.nbt;
 
+import net.kyori.adventure.key.Keyed;
 import net.kyori.adventure.nbt.*;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.Style;
@@ -279,6 +280,23 @@ public interface BinaryTagSerializer<T> {
                 final DynamicRegistry.Key<T> key = DynamicRegistry.Key.of(s.value());
                 Check.argCondition(registry.get(key) == null, "Key is not registered: {0} > {1}", registry, s);
                 return key;
+            }
+        };
+    }
+
+    static <T extends Keyed> @NotNull BinaryTagSerializer<T> keyed(@NotNull Function<String, T> fromKey) {
+        return new BinaryTagSerializer<>() {
+            @Override
+            public @NotNull BinaryTag write(@NotNull Context context, @NotNull T value) {
+                return stringBinaryTag(value.key().asString());
+            }
+
+            @Override
+            public @NotNull T read(@NotNull Context context, @NotNull BinaryTag tag) {
+                if (!(tag instanceof StringBinaryTag s)) throw new IllegalArgumentException("Expected string tag for namespaced object");
+                final T value = fromKey.apply(s.value());
+                Check.notNull(value, "Key is not registered: {0} > {1}", tag, s);
+                return value;
             }
         };
     }

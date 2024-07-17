@@ -150,7 +150,7 @@ public non-sealed interface EntityEffect extends Enchantment.Effect {
                 builder.putString("block_interaction", value.blockInteraction.id());
                 builder.put("small_particle", Particle.NBT_TYPE.write(context, value.smallParticle));
                 builder.put("large_particle", Particle.NBT_TYPE.write(context, value.largeParticle));
-                builder.putString("sound", value.sound.namespace().asString());
+                builder.put("sound", SoundEvent.NBT_TYPE.write(value.sound));
 
                 return builder.build();
             }
@@ -173,7 +173,7 @@ public non-sealed interface EntityEffect extends Enchantment.Effect {
                 BlockInteraction blockInteraction = BlockInteraction.fromId(compound.getString("block_interaction"));
                 Particle smallParticle = Particle.NBT_TYPE.read(Objects.requireNonNull(compound.get("small_particle")));
                 Particle largeParticle = Particle.NBT_TYPE.read(Objects.requireNonNull(compound.get("large_particle")));
-                SoundEvent sound = SoundEvent.fromNamespaceId(Objects.requireNonNull(compound.getString("sound")));
+                SoundEvent sound = SoundEvent.NBT_TYPE.read(Objects.requireNonNull(compound.get("sound")));
                 Check.notNull(sound, "Cannot find sound event");
 
                 return new Explode(
@@ -231,12 +231,16 @@ public non-sealed interface EntityEffect extends Enchantment.Effect {
     }
 
     record PlaySound(
-            CompoundBinaryTag content
-//            @NotNull SoundEvent sound,
-//            Object volume, // "A Float Provider between 0.00001 and 10.0 specifying the volume of the sound"
-//            Object pitch // "A Float Provider between 0.00001 and 2.0 specifying the pitch of the sound"
+            @NotNull SoundEvent sound,
+            @NotNull FloatProvider volume,
+            @NotNull FloatProvider pitch
     ) implements EntityEffect, LocationEffect {
-        public static final BinaryTagSerializer<PlaySound> NBT_TYPE = BinaryTagSerializer.COMPOUND.map(PlaySound::new, PlaySound::content);
+        public static final BinaryTagSerializer<PlaySound> NBT_TYPE = BinaryTagSerializer.object(
+                "sound", SoundEvent.NBT_TYPE, PlaySound::sound,
+                "volume", FloatProvider.NBT_TYPE, PlaySound::volume,
+                "pitch", FloatProvider.NBT_TYPE, PlaySound::pitch,
+                PlaySound::new
+        );
 
         @Override
         public @NotNull BinaryTagSerializer<PlaySound> nbtType() {
