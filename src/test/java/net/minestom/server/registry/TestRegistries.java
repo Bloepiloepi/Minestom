@@ -30,6 +30,7 @@ public class TestRegistries implements Registries {
     public DynamicRegistry<PaintingMeta.Variant> paintingVariant = null;
     public DynamicRegistry<JukeboxSong> jukeboxSong = null;
     public DynamicRegistry<BinaryTagSerializer<? extends LevelBasedValue>> enchantmentLevelBasedValues = null;
+    public DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> enchantmentFloatProviders = null;
     public DynamicRegistry<BinaryTagSerializer<? extends ValueEffect>> enchantmentValueEffects = null;
     public DynamicRegistry<BinaryTagSerializer<? extends EntityEffect>> enchantmentEntityEffects = null;
     public DynamicRegistry<BinaryTagSerializer<? extends LocationEffect>> enchantmentLocationEffects = null;
@@ -100,6 +101,11 @@ public class TestRegistries implements Registries {
     @Override
     public @NotNull DynamicRegistry<BinaryTagSerializer<? extends LevelBasedValue>> enchantmentLevelBasedValues() {
         return Objects.requireNonNull(enchantmentLevelBasedValues);
+    }
+
+    @Override
+    public @NotNull DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> enchantmentFloatProviders() {
+        return Objects.requireNonNull(enchantmentFloatProviders);
     }
 
     @Override
