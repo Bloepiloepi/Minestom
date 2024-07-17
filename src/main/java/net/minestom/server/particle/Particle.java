@@ -467,7 +467,7 @@ public sealed interface Particle extends StaticProtocolObject, Particles permits
                         (int) (list.getFloat(2) * 255)
                 );
             } else {
-                color = new AlphaColor(((IntBinaryTag) colorTag).value());
+                color = new AlphaColor(((NumberBinaryTag) colorTag).intValue());
             }
 
             return withColor(color);

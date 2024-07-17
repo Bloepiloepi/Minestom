@@ -1,5 +1,8 @@
 package net.minestom.server.registry;
 
+import net.minestom.server.config.BlockStateProvider;
+import net.minestom.server.config.FloatProvider;
+import net.minestom.server.config.IntProvider;
 import net.minestom.server.entity.damage.DamageType;
 import net.minestom.server.entity.metadata.animal.tameable.WolfMeta;
 import net.minestom.server.entity.metadata.other.PaintingMeta;
@@ -30,10 +33,12 @@ public class TestRegistries implements Registries {
     public DynamicRegistry<PaintingMeta.Variant> paintingVariant = null;
     public DynamicRegistry<JukeboxSong> jukeboxSong = null;
     public DynamicRegistry<BinaryTagSerializer<? extends LevelBasedValue>> enchantmentLevelBasedValues = null;
-    public DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> enchantmentFloatProviders = null;
     public DynamicRegistry<BinaryTagSerializer<? extends ValueEffect>> enchantmentValueEffects = null;
     public DynamicRegistry<BinaryTagSerializer<? extends EntityEffect>> enchantmentEntityEffects = null;
     public DynamicRegistry<BinaryTagSerializer<? extends LocationEffect>> enchantmentLocationEffects = null;
+    public DynamicRegistry<BinaryTagSerializer<? extends IntProvider>> intProviders = null;
+    public DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> floatProviders = null;
+    public DynamicRegistry<BinaryTagSerializer<? extends BlockStateProvider>> blockStateProviders = null;
 
     public TestRegistries() {
 
@@ -104,11 +109,6 @@ public class TestRegistries implements Registries {
     }
 
     @Override
-    public @NotNull DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> enchantmentFloatProviders() {
-        return Objects.requireNonNull(enchantmentFloatProviders);
-    }
-
-    @Override
     public @NotNull DynamicRegistry<BinaryTagSerializer<? extends ValueEffect>> enchantmentValueEffects() {
         return Objects.requireNonNull(enchantmentValueEffects);
     }
@@ -121,5 +121,20 @@ public class TestRegistries implements Registries {
     @Override
     public @NotNull DynamicRegistry<BinaryTagSerializer<? extends LocationEffect>> enchantmentLocationEffects() {
         return Objects.requireNonNull(enchantmentLocationEffects);
+    }
+
+    @Override
+    public @NotNull DynamicRegistry<BinaryTagSerializer<? extends IntProvider>> intProviders() {
+        return Objects.requireNonNull(intProviders);
+    }
+
+    @Override
+    public @NotNull DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> floatProviders() {
+        return Objects.requireNonNull(floatProviders);
+    }
+
+    @Override
+    public @NotNull DynamicRegistry<BinaryTagSerializer<? extends BlockStateProvider>> blockStateProviders() {
+        return Objects.requireNonNull(blockStateProviders);
     }
 }
