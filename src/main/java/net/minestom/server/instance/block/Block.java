@@ -1,5 +1,6 @@
 package net.minestom.server.instance.block;
 
+import net.kyori.adventure.nbt.BinaryTag;
 import net.kyori.adventure.nbt.CompoundBinaryTag;
 import net.minestom.server.coordinate.Point;
 import net.minestom.server.instance.Instance;
@@ -10,6 +11,7 @@ import net.minestom.server.registry.StaticProtocolObject;
 import net.minestom.server.tag.Tag;
 import net.minestom.server.tag.TagReadable;
 import net.minestom.server.utils.NamespaceID;
+import net.minestom.server.utils.nbt.BinaryTagSerializer;
 import org.jetbrains.annotations.*;
 
 import java.util.Collection;
@@ -26,8 +28,49 @@ import java.util.function.BiPredicate;
  */
 public sealed interface Block extends StaticProtocolObject, TagReadable, Blocks permits BlockImpl {
 
-    @NotNull
-    NetworkBuffer.Type<Block> NETWORK_TYPE = NetworkBuffer.VAR_INT.map(Block::fromStateId, Block::stateId);
+    @NotNull NetworkBuffer.Type<Block> NETWORK_TYPE = NetworkBuffer.VAR_INT.map(Block::fromStateId, Block::stateId);
+    @NotNull BinaryTagSerializer<Block> NBT_TYPE = new BinaryTagSerializer<>() {
+        @Override
+        public @NotNull BinaryTag write(@NotNull Context context, @NotNull Block value) {
+            CompoundBinaryTag.Builder builder = CompoundBinaryTag.builder();
+            builder.putString("Name", value.namespace().asString());
+
+            final CompoundBinaryTag properties = writeProperties(value);
+            if (properties.size() != 0) builder.put("Properties", properties);
+
+            return builder.build();
+        }
+
+        private static @NotNull CompoundBinaryTag writeProperties(@NotNull Block value) {
+            CompoundBinaryTag.Builder propertiesBuilder = CompoundBinaryTag.builder();
+            Block defaultState = value.defaultState();
+            Map<String, String> properties = value.properties();
+
+            for (Map.Entry<String, String> entry : properties.entrySet()) {
+                // If the property is the same as default, it can be omitted
+                if (!defaultState.getProperty(entry.getKey()).equals(entry.getValue())) {
+                    propertiesBuilder.putString(entry.getKey(), entry.getValue());
+                }
+            }
+
+            return propertiesBuilder.build();
+        }
+
+        @Override
+        public @NotNull Block read(@NotNull Context context, @NotNull BinaryTag tag) {
+            final CompoundBinaryTag compound = (CompoundBinaryTag) tag;
+
+            Block block = Block.fromNamespaceId(compound.getString("Name"));
+            assert block != null;
+
+            CompoundBinaryTag properties = compound.getCompound("Properties");
+            for (String property : properties.keySet()) {
+                block = block.withProperty(property, properties.getString(property));
+            }
+
+            return block;
+        }
+    };
 
     /**
      * Creates a new block with the the property {@code property} sets to {@code value}.
