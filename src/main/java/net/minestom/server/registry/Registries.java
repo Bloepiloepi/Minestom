@@ -1,5 +1,6 @@
 package net.minestom.server.registry;
 
+import net.minestom.server.config.BlockPredicate;
 import net.minestom.server.config.BlockStateProvider;
 import net.minestom.server.config.FloatProvider;
 import net.minestom.server.config.IntProvider;
@@ -62,5 +63,7 @@ public interface Registries {
     @NotNull DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> floatProviders();
 
     @NotNull DynamicRegistry<BinaryTagSerializer<? extends BlockStateProvider>> blockStateProviders();
+
+    @NotNull DynamicRegistry<BinaryTagSerializer<? extends BlockPredicate>> blockPredicates();
 
 }

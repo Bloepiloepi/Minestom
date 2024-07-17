@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minestom.server.advancements.AdvancementManager;
 import net.minestom.server.adventure.bossbar.BossBarManager;
 import net.minestom.server.command.CommandManager;
+import net.minestom.server.config.BlockPredicate;
 import net.minestom.server.config.BlockStateProvider;
 import net.minestom.server.config.FloatProvider;
 import net.minestom.server.config.IntProvider;
@@ -68,6 +69,7 @@ final class ServerProcessImpl implements ServerProcess {
     private final DynamicRegistry<BinaryTagSerializer<? extends IntProvider>> intProviders;
     private final DynamicRegistry<BinaryTagSerializer<? extends FloatProvider>> floatProviders;
     private final DynamicRegistry<BinaryTagSerializer<? extends BlockStateProvider>> blockStateProviders;
+    private final DynamicRegistry<BinaryTagSerializer<? extends BlockPredicate>> blockPredicates;
 
     private final DynamicRegistry<ChatType> chatType;
     private final DynamicRegistry<DimensionType> dimensionType;
@@ -116,6 +118,7 @@ final class ServerProcessImpl implements ServerProcess {
         this.intProviders = IntProvider.createDefaultRegistry();
         this.floatProviders = FloatProvider.createDefaultRegistry();
         this.blockStateProviders = BlockStateProvider.createDefaultRegistry();
+        this.blockPredicates = BlockPredicate.createDefaultRegistry();
 
         this.chatType = ChatType.createDefaultRegistry();
         this.dimensionType = DimensionType.createDefaultRegistry();
@@ -228,6 +231,11 @@ final class ServerProcessImpl implements ServerProcess {
     @Override
     public @NotNull DynamicRegistry<BinaryTagSerializer<? extends BlockStateProvider>> blockStateProviders() {
         return blockStateProviders;
+    }
+
+    @Override
+    public @NotNull DynamicRegistry<BinaryTagSerializer<? extends BlockPredicate>> blockPredicates() {
+        return blockPredicates;
     }
 
     @Override
