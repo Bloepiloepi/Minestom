@@ -3,7 +3,7 @@ package net.minestom.server.item.enchant;
 import net.kyori.adventure.nbt.BinaryTag;
 import net.kyori.adventure.nbt.CompoundBinaryTag;
 import net.kyori.adventure.nbt.NumberBinaryTag;
-import net.minestom.server.config.BlockPredicate;
+import net.minestom.server.condition.BlockPredicate;
 import net.minestom.server.config.BlockStateProvider;
 import net.minestom.server.config.FloatProvider;
 import net.minestom.server.coordinate.Point;

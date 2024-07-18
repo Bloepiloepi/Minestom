@@ -4,7 +4,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minestom.server.advancements.AdvancementManager;
 import net.minestom.server.adventure.bossbar.BossBarManager;
 import net.minestom.server.command.CommandManager;
-import net.minestom.server.config.BlockPredicate;
+import net.minestom.server.condition.BlockPredicate;
 import net.minestom.server.config.BlockStateProvider;
 import net.minestom.server.config.FloatProvider;
 import net.minestom.server.config.IntProvider;
